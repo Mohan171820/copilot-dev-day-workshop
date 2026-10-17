@@ -50,7 +50,22 @@ const QUESTIONS = [
     question: "Which command uploads your local commits to a remote repository?",
     options: ["git push", "git pull", "git fetch", "git upload"],
     answer: 0,
-  }
+  },
+  {
+    question: "Where are GitHub Actions workflow files stored?",
+    options: [".github/workflows/", ".github/actions/", "workflows/", "actions.yml"],
+    answer: 0,
+  },
+  {
+    question: "Which YAML key specifies when a workflow runs?",
+    options: ["name", "jobs", "on", "uses"],
+    answer: 2,
+  },
+  {
+    question: "Which job property makes a job wait for another job?",
+    options: ["runs-on", "steps", "env", "needs"],
+    answer: 3,
+  },
 ];
 
 // Lets Node.js tests load this file. Browsers ignore this block.
