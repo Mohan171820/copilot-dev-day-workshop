@@ -2,7 +2,72 @@
 // Run them with:  npm test
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { shuffle, isCorrect, calculatePercentage, formatTimeLeft, getGrade, getFeedbackMessage } = require("../src/quiz.js");
+const {
+  shuffle,
+  isCorrect,
+  calculatePercentage,
+  formatTimeLeft,
+  getGrade,
+  getFeedbackMessage,
+  createQuiz,
+  answerQuestion,
+  isQuizFinished,
+  startQuestion,
+  tickQuestion,
+  markQuestionAnswered,
+  advanceQuestion,
+} = require("../src/quiz.js");
+
+test("createQuiz initializes a new state with the supplied questions", () => {
+  const questions = [{ answer: 1 }];
+  const state = createQuiz(questions);
+
+  assert.deepEqual(state, {
+    questions,
+    current: 0,
+    score: 0,
+    timeLeft: 0,
+    questionAnswered: false,
+  });
+  assert.notEqual(state, questions);
+});
+
+test("answerQuestion returns a new state and increments score for a correct answer", () => {
+  const initialState = createQuiz([{ answer: 1 }]);
+  const result = answerQuestion(initialState, 1);
+
+  assert.equal(result.correct, true);
+  assert.deepEqual(result.state, { ...initialState, score: 1, questionAnswered: true });
+  assert.deepEqual(initialState, createQuiz(initialState.questions));
+});
+
+test("answerQuestion marks an incorrect answer without incrementing score", () => {
+  const initialState = createQuiz([{ answer: 1 }]);
+  const result = answerQuestion(initialState, 0);
+
+  assert.equal(result.correct, false);
+  assert.deepEqual(result.state, { ...initialState, questionAnswered: true });
+  assert.equal(initialState.questionAnswered, false);
+});
+
+test("isQuizFinished becomes true after advancing past the final question", () => {
+  const state = createQuiz([{ answer: 0 }]);
+
+  assert.equal(isQuizFinished(state), false);
+  assert.equal(isQuizFinished(advanceQuestion(state)), true);
+});
+
+test("question state transition helpers return updated states without mutation", () => {
+  const state = createQuiz([{ answer: 0 }]);
+  const started = startQuestion(state, 15);
+  const ticked = tickQuestion(started);
+  const answered = markQuestionAnswered(ticked);
+
+  assert.equal(started.timeLeft, 15);
+  assert.equal(ticked.timeLeft, 14);
+  assert.equal(answered.questionAnswered, true);
+  assert.deepEqual(state, createQuiz(state.questions));
+});
 
 test("isCorrect returns true for the right answer", () => {
   assert.equal(isCorrect({ answer: 2 }, 2), true);

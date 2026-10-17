@@ -62,6 +62,56 @@ function getFeedbackMessage(grade) {
   }
 }
 
+function createQuiz(questions) {
+  return { questions, current: 0, score: 0, timeLeft: 0, questionAnswered: false };
+}
+
+function answerQuestion(state, selectedIndex) {
+  const correct = isCorrect(state.questions[state.current], selectedIndex);
+  return {
+    state: {
+      ...state,
+      score: state.score + (correct ? 1 : 0),
+      questionAnswered: true,
+    },
+    correct,
+  };
+}
+
+function isQuizFinished(state) {
+  return state.current >= state.questions.length;
+}
+
+function startQuestion(state, timeLimit) {
+  return { ...state, timeLeft: timeLimit, questionAnswered: false };
+}
+
+function tickQuestion(state) {
+  return { ...state, timeLeft: state.timeLeft - 1 };
+}
+
+function markQuestionAnswered(state) {
+  return { ...state, questionAnswered: true };
+}
+
+function advanceQuestion(state) {
+  return { ...state, current: state.current + 1 };
+}
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { shuffle, isCorrect, calculatePercentage, formatTimeLeft, getGrade, getFeedbackMessage };
+  module.exports = {
+    shuffle,
+    isCorrect,
+    calculatePercentage,
+    formatTimeLeft,
+    getGrade,
+    getFeedbackMessage,
+    createQuiz,
+    answerQuestion,
+    isQuizFinished,
+    startQuestion,
+    tickQuestion,
+    markQuestionAnswered,
+    advanceQuestion,
+  };
 }
