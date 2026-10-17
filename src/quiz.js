@@ -30,6 +30,13 @@ function calculatePercentage(score, total) {
 }
 
 /**
+ * Returns true when the current percentage exceeds the saved best.
+ */
+function isNewBestScore(current, best) {
+  return best === null || current > best;
+}
+
+/**
  * Formats the number of seconds remaining in a question.
  */
 function formatTimeLeft(seconds) {
@@ -103,6 +110,7 @@ if (typeof module !== "undefined" && module.exports) {
     shuffle,
     isCorrect,
     calculatePercentage,
+    isNewBestScore,
     formatTimeLeft,
     getGrade,
     getFeedbackMessage,
