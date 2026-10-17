@@ -30,6 +30,13 @@ function calculatePercentage(score, total) {
 }
 
 /**
+ * Formats the number of seconds remaining in a question.
+ */
+function formatTimeLeft(seconds) {
+  return `⏱ ${seconds}s`;
+}
+
+/**
  * Turns a percentage into a grade.
  * A = 90% or more, B = 75% or more, C = 50% or more.
  */
@@ -41,6 +48,20 @@ function getGrade(percentage) {
 }
 
 // Lets Node.js tests load this file. Browsers ignore this block.
+// Returns an encouraging message for a grade: "A", "B", "C" or anything else
+function getFeedbackMessage(grade) {
+  switch (grade) {
+    case "A":
+      return "Excellent work! You're a quiz master!";
+    case "B":
+      return "Good job! Keep up the great work!";
+    case "C":
+      return "Not bad! Keep practicing and you'll get there!";
+    default:
+      return "Keep practicing and you'll improve!";
+  }
+}
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { shuffle, isCorrect, calculatePercentage, getGrade };
+  module.exports = { shuffle, isCorrect, calculatePercentage, formatTimeLeft, getGrade };
 }

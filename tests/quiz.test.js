@@ -2,7 +2,7 @@
 // Run them with:  npm test
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { shuffle, isCorrect, calculatePercentage, getGrade } = require("../src/quiz.js");
+const { shuffle, isCorrect, calculatePercentage, formatTimeLeft, getGrade } = require("../src/quiz.js");
 
 test("isCorrect returns true for the right answer", () => {
   assert.equal(isCorrect({ answer: 2 }, 2), true);
@@ -18,6 +18,18 @@ test("calculatePercentage rounds to a whole number", () => {
 
 test("calculatePercentage returns 0 when there are no questions", () => {
   assert.equal(calculatePercentage(0, 0), 0);
+});
+
+test("formatTimeLeft includes seconds when time remains", () => {
+  assert.equal(formatTimeLeft(12), "⏱ 12s");
+});
+
+test("formatTimeLeft formats the threshold when five seconds remain", () => {
+  assert.equal(formatTimeLeft(5), "⏱ 5s");
+});
+
+test("formatTimeLeft shows zero when time expires", () => {
+  assert.equal(formatTimeLeft(0), "⏱ 0s");
 });
 
 test("shuffle keeps every item and does not change the original array", () => {
