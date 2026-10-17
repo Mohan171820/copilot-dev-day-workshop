@@ -52,6 +52,16 @@ h2 {
   font-size: 1.1rem;
 }
 
+.best-score {
+  font-weight: 600;
+}
+
+.best-score-celebration {
+  color: var(--correct);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
 .muted {
   color: var(--muted);
   margin: 0;
